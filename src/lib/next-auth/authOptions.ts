@@ -2,8 +2,6 @@ import { NextAuthOptions } from "next-auth";
 import GithubProvider from "next-auth/providers/github"
 import GoogleProvider from "next-auth/providers/google"
 import { prisma } from "../prisma";
-import { sign } from "jsonwebtoken";
-import { SIGN_TOKEN_EXPIRATION } from "@/helpers/variables";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -18,6 +16,27 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
+        async jwt({ token, account, user, session }) {
+            const u = await prisma.user.upsert({
+                where: {
+                    email: session?.user?.email,
+                },
+                update: {
+                    email: session?.user?.email,
+                    name: session?.user?.name,
+                    avatar: session?.user?.image
+                },
+                create: {
+                    email: session?.user?.email,
+                    name: session?.user?.name,
+                    avatar: session?.user?.image
+                }
+            })
+
+
+            token.userId = u?.id
+            return { ...token, ...user, ...account };
+        },
 
         async session({ session, token }) {
             if (!session?.user?.email) {
@@ -44,6 +63,7 @@ export const authOptions: NextAuthOptions = {
 
             return session;
         },
+
     },
     secret: process.env.NEXTAUTH_SECRET,
 }

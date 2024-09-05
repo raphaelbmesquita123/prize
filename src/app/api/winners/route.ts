@@ -16,8 +16,6 @@ export interface IWinnersResponse {
 }
 
 export async function GET(req: NextRequest) {
-
-
   const token: Payload | null = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
   if (!token?.userId) {
@@ -35,7 +33,7 @@ export async function GET(req: NextRequest) {
     take: Number(take) || 10,
     skip: Number(skip) || 0,
     orderBy: {
-      createdAt : 'desc'
+      createdAt: 'desc'
     }
   })
 
