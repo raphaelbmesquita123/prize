@@ -2,7 +2,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { fireworks } from '@tsparticles/fireworks';
 import toast from 'react-hot-toast';
-import { useTheme } from 'next-themes';
 
 //helpers
 import { Api } from '@/helpers/http/api';
@@ -14,7 +13,6 @@ import { Button } from '../ui/button';
 import Icon from '../icon';
 
 export default function NameDraw() {
-    const { theme } = useTheme()
     const [data, setData] = useState<IExcelData[]>([]);
     const [dataKey, setDataKey] = useState<string>('');
     const [drawing, setDrawing] = useState(false);
@@ -66,17 +64,16 @@ export default function NameDraw() {
         });
 
         if (response.message === 'Unauthorized') {
-            toast.error('Sorry, but the winner could not be saved to your account');
+            toast.error('To save the winner you need to be logged in');
         }
     };
 
     useEffect(() => {
         if (drawing) {
             const luckElements = outputDisplayRef.current?.querySelectorAll('strong');
-            const color = theme === 'dark' ? 'white' : 'black';
 
             luckElements?.forEach(element => {
-                element.setAttribute('style', `color: ${color}`);
+                element?.setAttribute('class', `text-5xl text-nowrap text-black dark:text-white`);
             });
 
             const interval = setInterval(() => {
@@ -92,8 +89,7 @@ export default function NameDraw() {
                         block: 'center',
                         inline: 'center'
                     });
-                    const finalColor = theme === 'dark' ? 'yellow' : 'orange';
-                    luckElement?.setAttribute('style', `color: ${finalColor}`);
+                    luckElement?.setAttribute('class', `text-5xl text-nowrap text-orange-400 dark:text-yellow-500`);
                     handleSaveWinner(lucky);
                     setShowFireworks(true);
                     return;
