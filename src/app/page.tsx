@@ -1,12 +1,17 @@
 
 //components
+import { useSession } from "next-auth/react";
 import NameDraw from "../components/nameDraw";
 
 export default function Home() {
+  const session = useSession()
   return (
     <main className='flex-col-container items-center p-4'>
       <h1 className='text-7xl font-bold py-16 font-mono'>Good Luck!</h1>
       <NameDraw />
+      <span className='text-white'>
+        {JSON.stringify(session)}
+      </span>
     </main>
   );
 }
