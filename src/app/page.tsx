@@ -1,6 +1,6 @@
-
-//components
+'use client'
 import { useSession } from "next-auth/react";
+//components
 import NameDraw from "../components/nameDraw";
 
 export default function Home() {
