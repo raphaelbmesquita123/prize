@@ -6,7 +6,7 @@ export default function Home() {
 
   return (
     <main className='flex-col-container items-center p-4'>
-      <h1 className='text-7xl font-bold py-16 font-mono'>Good Luck!</h1>
+      <h1 className='text-7xl text-center font-bold py-10 font-mono sm:py-16'>Good Luck!</h1>
       <NameDraw />
     </main>
   );
